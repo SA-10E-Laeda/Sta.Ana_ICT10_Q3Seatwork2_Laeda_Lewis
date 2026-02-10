@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
+
+    <title>Team Picker for Intrams 2025–2026</title>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0b3c78, #1fa3a3);
+            transition: background 0.8s ease;
+
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 14px;
+            border: 3px solid #0b3c78;
+            box-shadow: 0 12px 28px rgba(11, 60, 120, 0.25);
+        }
+
+        .intrams-title span {
+            margin: 0 4px;
+            font-weight: 800;
+        }
+
+        .red { color: #b71c1c; }
+        .yellow { color: #fbc02d; }
+        .green { color: #2e7d32; }
+        .blue { color: #1565c0; }
+
+        .hidden { display: none; }
+
+        .logo {
+            width: 80px;
+        }
+
+        .indented {
+            margin-left: 30px;
+            padding-left: 15px;
+            border-left: 3px solid #ddd;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: linear-gradient(45deg,#b71c1c,#fbc02d,#2e7d32,#1565c0);
+            background-size: 400% 400%;
+            color: #1c1c1c;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            animation: gradientMove 5s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-toggle {
+            min-width: 70px;
+            font-size: 0.85rem;
+        }
+
+        #image img {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+            margin-top: 15px;
+        }
+    </style>
+
+    <script>
+        function setTeamBackground(team) {
+            const colors = {
+                Red: "linear-gradient(135deg, #b71c1c, #ef5350)",
+                Blue: "linear-gradient(135deg, #0d47a1, #42a5f5)",
+                Green: "linear-gradient(135deg, #1b5e20, #66bb6a)",
+                Yellow: "linear-gradient(135deg, #f57f17, #ffee58)"
+            };
+
+            if (colors[team]) {
+                document.body.style.background = colors[team];
+            }
+        }
+    </script>
+</head>
+
+<body class="d-flex justify-content-center align-items-start min-vh-100 py-4">
+
+<div class="card p-4 w-50">
+    <h2 class="text-center mb-4 intrams-title">
+        <span class="red">Team Picker</span>
+        <span class="yellow">for OBMC</span>
+        <span class="green">Intrams</span>
+        <span class="blue">2025–2026</span>
+        <img src="ob.png" class="logo">
+    </h2>
+
+    <form>
+        <div class="mb-3">
+            <label class="form-label"><b>Are you done with the online registration?</b></label><br>
+
+            <input type="radio" class="btn-check" name="registration" id="regYes" value="registered"
+                onclick="document.getElementById('sportsDiv').classList.remove('hidden');">
+            <label class="btn btn-outline-success btn-toggle me-2" for="regYes">Yes</label>
+
+            <input type="radio" class="btn-check" name="registration" id="regNo" value="not_registered"
+                onclick="
+                    document.getElementById('sportsDiv').classList.add('hidden');
+                    document.getElementById('philGamesDiv').classList.add('hidden');
+                ">
+            <label class="btn btn-outline-danger btn-toggle" for="regNo">No</label>
+        </div>
+
+        <div id="sportsDiv" class="indented hidden mb-3">
+            <label class="form-label"><b>Do you play sports?</b></label><br>
+
+            <input type="radio" class="btn-check" name="sports" id="sportsYes" value="yes"
+                onclick="document.getElementById('philGamesDiv').classList.add('hidden');">
+            <label class="btn btn-outline-success btn-toggle me-2" for="sportsYes">Yes</label>
+
+            <input type="radio" class="btn-check" name="sports" id="sportsNo" value="no"
+                onclick="document.getElementById('philGamesDiv').classList.remove('hidden');">
+            <label class="btn btn-outline-danger btn-toggle" for="sportsNo">No</label>
+        </div>
+
+        <div id="philGamesDiv" class="indented hidden mb-3">
+            <label class="form-label"><b>Do you want to play Philippine games?</b></label><br>
+
+            <input type="radio" class="btn-check" name="philGames" id="philYes" value="yes">
+            <label class="btn btn-outline-success btn-toggle me-2" for="philYes">Yes</label>
+
+            <input type="radio" class="btn-check" name="philGames" id="philNo" value="no">
+            <label class="btn btn-outline-danger btn-toggle" for="philNo">No</label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><b>Do you have medical clearance?</b></label><br>
+
+            <input type="radio" class="btn-check" name="clearance" id="clearYes" value="cleared">
+            <label class="btn btn-outline-success btn-toggle me-2" for="clearYes">Yes</label>
+
+            <input type="radio" class="btn-check" name="clearance" id="clearNo" value="not_cleared">
+            <label class="btn btn-outline-danger btn-toggle" for="clearNo">No</label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><b>What's your Grade & Section?</b></label>
+
+            <select id="level" class="form-select mb-2">
+                <option value="">Enter Grade*</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+
+            <select id="section" class="form-select">
+                <option value="">Enter Section*</option>
+                <option value="emerald">Emerald</option>
+                <option value="ruby">Ruby</option>
+                <option value="sapphire">Sapphire</option>
+                <option value="topaz">Topaz</option>
+            </select>
+        </div>
+
+        <div class="d-grid">
+            <button type="button" py-click="intrams_checker">
+                Sign up
+            </button>
+        </div>
+    </form>
+
+    <center>
+        <div id="output" class="mt-3"></div>
+        <div id="image" class="mt-3"></div>
+    </center>
+</div>
+
+<py-script src="main.py"></py-script>
+
+</body>
+</html>
